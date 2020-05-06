@@ -1,5 +1,5 @@
 [package]
-name = "categories-for-programmers"
+name = "categories"
 version = "0.1.0"
 authors = ["Orfeas Litos <o.thyfronitis@ed.ac.uk>"]
 edition = "2018"
