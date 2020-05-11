@@ -1,4 +1,4 @@
-use categories::{id, o};
+use self::{id, o};
 use std::convert::TryInto;
 
 fn main() {
