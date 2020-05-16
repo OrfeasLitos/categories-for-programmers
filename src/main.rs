@@ -1,4 +1,4 @@
-use self::{id, o};
+use categories_for_programmers::{id, o, Memoized};
 use std::convert::TryInto;
 
 fn main() {
@@ -16,5 +16,12 @@ fn main() {
         }
     }
 
-    println!("composition: {}, {}, {}", g(-1), f(g(-1)), o(&f, &g)(-1))
+    println!("composition: {}, {}, {}", g(-1), f(g(-1)), o(&f, &g)(-1));
+
+    fn h(x: &usize) -> f64 {
+        *x as f64 + 0.5
+    }
+
+    let mut mem_h = Memoized::new(&h);
+    println!("memoize: {}, {}, {}", mem_h.exe(1), mem_h.exe(2), mem_h.exe(1));
 }
