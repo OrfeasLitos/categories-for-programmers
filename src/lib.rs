@@ -9,12 +9,12 @@ pub fn o<'a, R, S, T>(f: &'a (dyn Fn(S) -> T), g: &'a (dyn Fn(R) -> S)) -> impl 
     move |x| f(g(x))
 }
 
-pub struct Memoized<'a, R: Eq + Hash + Clone, S> {
+pub struct Memoized<'a, R: Eq + Hash, S> {
     f: &'a (dyn Fn(&R) -> S),
     map: HashMap<R, S>,
 }
 
-impl<'a, R: Eq + Hash + Clone, S: Clone> Memoized<'_, R, S>
+impl<'a, R: Eq + Hash, S: Clone> Memoized<'_, R, S>
     {
     pub fn new(f: &'static (dyn Fn(&R) -> S)) -> Self {
         Memoized {
