@@ -53,6 +53,8 @@ pub fn memoize<R: Eq + Hash, S: Clone>(f: &'static (dyn Fn(&R) -> S)) -> Box<(dy
     )
 }
 
+// see https://users.rust-lang.org/t/memoize-function-without-cloning/42813/2 for memoize_ref()
+
 #[cfg(test)]
 mod tests {
     use super::*;
