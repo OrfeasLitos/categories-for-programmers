@@ -36,7 +36,7 @@ impl<'a, R: Eq + Hash, S: Clone> Memoized<'_, R, S>
     }
 }
 
-pub fn memoize<R: Eq + Hash, S: Clone>(f: &(dyn Fn(&R) -> S)) -> Box<(dyn FnMut(R) -> S)> {
+pub fn memoize<R: Eq + Hash, S: Clone>(f: &'static (dyn Fn(&R) -> S)) -> Box<(dyn FnMut(R) -> S)> {
     let mut map: HashMap<R, S> = HashMap::new();
 
     Box::new(
