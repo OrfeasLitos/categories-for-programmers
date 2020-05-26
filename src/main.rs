@@ -1,4 +1,9 @@
-use categories_for_programmers::{id, o, Memoized};
+mod composition;
+use crate::composition::{id, o};
+
+mod memoize;
+use crate::memoize::Memoized;
+
 use std::convert::TryInto;
 
 fn main() {

@@ -1,14 +1,6 @@
 use std::hash::Hash;
 use std::collections::HashMap;
 
-pub fn id<T>(x: T) -> T {
-    x
-}
-
-pub fn o<'a, R, S, T>(f: &'a (dyn Fn(S) -> T), g: &'a (dyn Fn(R) -> S)) -> impl Fn(R) -> T + 'a {
-    move |x| f(g(x))
-}
-
 pub struct Memoized<'a, R: Eq + Hash, S> {
     f: &'a (dyn Fn(&R) -> S),
     map: HashMap<R, S>,
@@ -55,40 +47,24 @@ pub fn memoize<R: Eq + Hash, S: Clone>(f: &'static (dyn Fn(&R) -> S)) -> Box<(dy
 
 // see https://users.rust-lang.org/t/memoize-function-without-cloning/42813/2 for memoize_ref()
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn composable_identity() {
-        fn dummy(x: usize) -> usize {
-            x + 1
-        }
-
-        assert_eq!(dummy(1), o(&dummy, &id)(1));
-        assert_eq!(dummy(1), o(&id, &dummy)(1));
-        assert_eq!(o(&dummy, &id)(1), o(&id, &dummy)(1));
+#[test]
+fn struct_memoize() {
+    fn f(x: &isize) -> f64 {
+        *x as f64 / 32.0
     }
 
-    #[test]
-    fn struct_memoize() {
-        fn f(x: &isize) -> f64 {
-            *x as f64 / 32.0
-        }
+    let mut mem_f = Memoized::new(&f);
+    assert_eq!(mem_f.exe(42), f(&42));
+    assert_eq!(mem_f.exe(42), mem_f.exe(42));
+}
 
-        let mut mem_f = Memoized::new(&f);
-        assert_eq!(mem_f.exe(42), f(&42));
-        assert_eq!(mem_f.exe(42), mem_f.exe(42));
+#[test]
+fn func_memoize() {
+    fn f(x: &isize) -> f64 {
+        *x as f64 / 32.0
     }
 
-    #[test]
-    fn func_memoize() {
-        fn f(x: &isize) -> f64 {
-            *x as f64 / 32.0
-        }
-
-        let mut mem_f = memoize(&f);
-        assert_eq!(mem_f(42), f(&42));
-        assert_eq!(mem_f(42), mem_f(42));
-    }
+    let mut mem_f = memoize(&f);
+    assert_eq!(mem_f(42), f(&42));
+    assert_eq!(mem_f(42), mem_f(42));
 }
