@@ -4,6 +4,8 @@ use composition::id;
 mod memoize;
 use memoize::Memoized;
 
+mod coproducts;
+
 use std::convert::TryInto;
 
 fn main() {
