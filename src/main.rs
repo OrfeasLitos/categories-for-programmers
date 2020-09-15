@@ -1,8 +1,8 @@
 mod composition;
-use crate::composition::{id, o};
+use composition::id;
 
 mod memoize;
-use crate::memoize::Memoized;
+use memoize::Memoized;
 
 use std::convert::TryInto;
 
@@ -21,7 +21,9 @@ fn main() {
         }
     }
 
-    println!("composition: {}, {}, {}", g(-1), f(g(-1)), o(&f, &g)(-1));
+    println!(
+        "composition: {}, {}, {}", g(-1), f(g(-1)), composition::o(&f, &g)(-1)
+    );
 
     fn h(x: &usize) -> f64 {
         *x as f64 + 0.5
