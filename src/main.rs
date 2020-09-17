@@ -5,6 +5,8 @@ mod memoize;
 use memoize::Memoized;
 
 mod coproducts;
+mod shapes_trait;
+mod shapes_enum;
 
 use std::convert::TryInto;
 
