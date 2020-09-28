@@ -7,6 +7,7 @@ use memoize::Memoized;
 mod coproducts;
 mod shapes_trait;
 mod shapes_enum;
+mod reader;
 
 use std::convert::TryInto;
 
