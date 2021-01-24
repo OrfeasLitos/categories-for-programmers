@@ -1,0 +1,41 @@
+Ex. 1
+-----
+
+instance Bifunctor Pair where
+  bimap f g (Pair x y) = Pair (f x) (g y)
+  first f (Pair x y) = Pair (f x) y
+  second g (Pair x y) = Pair x (g y)
+
+first f = bimap f id
+
+first f (Pair x y) = Pair (f x) y
+bimap f id (Pair x y) = Pair (f x) y
+
+similarly for second g
+
+bimap f g (Pair x y) = first f . second g (Pair x y) = first f (Pair x (g y)) = Pair (f x) (g y)
+
+Ex. 2
+-----
+
+SugaredFromRaw x =
+  match x
+    Left (Const () _) => Nothing
+    Right (Identity y) => Just y
+
+RawFromSugared x =
+  match x
+    Nothing => Left (Const () a)
+    Just y => Right (Identity y)
+
+SugaredFromRaw RawFromSugared x =
+  match x
+    Nothing => SugaredFromRaw (Left (Const () a)) = Nothing
+    Just y => SugaredFromRaw (Right (Identity y)) = Just y
+
+Ex. 3
+-----
+
+instance Bifunctor PreList where
+  bimap f g Nil = Nil
+  bimap f g (Cons a b) = Cons (f a) (g b)

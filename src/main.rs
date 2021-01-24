@@ -8,6 +8,7 @@ mod coproducts;
 mod shapes_trait;
 mod shapes_enum;
 mod reader;
+mod functoriality;
 
 use std::convert::TryInto;
 
