@@ -1,7 +1,1 @@
-# ignore all files in haskell/ without extension (i.e. binaries)
-/haskell/*
-!/haskell/*.*
-
 /rust/target
-*.hi
-*.o
