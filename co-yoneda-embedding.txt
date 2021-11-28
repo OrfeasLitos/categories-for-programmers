@@ -1,0 +1,45 @@
+-- https://bartoszmilewski.com/2015/10/28/yoneda-embedding/
+-- Yoneda embedding
+-- [C, Set](C(a, -), C(b, -)) = C(b, a)
+-- forall x . (a -> x) -> (b -> x) = b -> a
+
+btoa :: b -> a
+fromY :: (a -> x) -> b -> x
+
+fromY f b = f (btoa b)
+btoa = fromY id
+
+-- Ex. 1
+btoafromfromY :: ((a -> x) -> b -> x) -> (b -> a)
+btoafromfromY fromY = fromY id
+
+fromYfrombtoa :: (b -> a) -> ((a -> x) -> b -> x)
+fromYfrombtoa btoa f = f . btoa
+
+fromYfrombtoa . btoafromfromY fromY = -- apply btoafromfromY
+fromYfrombtoa (fromY id) -- add arguments
+fromYfrombtoa (fromY id) f b = -- apply fromYfrombtoa
+f . (fromY id) b = -- apply composition
+f (fromY id b) = -- use fromY definition
+f (btoa b) -- equal to fromY by its definition
+
+btoafromfromY . fromYfrombtoa btoa = -- apply composition
+btoafromfromY (fromYfrombtoa btoa) = -- apply btoafromfromY
+(fromYfrombtoa btoa) id = -- drop parentheses, as fromYfrombtoa consumes 2 args
+fromYfrombtoa btoa id = -- apply fromYfrombtoa
+id . btoa = btoa
+
+-- Ex. 2
+-- co-Yoneda Lemma
+-- [C, Set](C(-, a), F) = F a (F from C to Set, contravariant)
+-- forall x . (x -> a) -> F x = F a
+
+-- co-Yoneda embedding
+-- [C, Set](C(-, a), C(-, b) = C(a, b)
+-- forall x . (x -> a) -> (x -> b) = a -> b
+
+atob :: a -> b
+fromCY :: (x -> a) -> x -> b
+
+fromCY f x = atob (f x)
+atob = fromCY id
