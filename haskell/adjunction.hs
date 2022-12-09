@@ -1,8 +1,6 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleInstances #-}
 
-import qualified Data.Set as Set
-
 -- Adjunction between a product and a function object
 -- https://bartoszmilewski.com/2016/04/18/adjunctions/
 
@@ -19,15 +17,18 @@ class Representable f where
    tabulate :: (Rep f -> x) -> f x
    index    :: f x -> Rep f -> x
 
-data FunctionObj f a b = FunctionObj f a b
-eval :: (FunctionObj (a -> b) a b) -> a -> b
-eval (FunctionObj f _ _) x = f x
+data FunctionObj b a = FunctionObj b a
+-- there exists eval :: (FunctionObj b a, a) -> b
+-- for any other z with g :: (z, a) -> b
+-- exists unique h :: z -> FunctionObj b a
+-- such that g = eval . (h, id)
 
-instance Representable (FunctionObj (a -> b) a) where
-  -- https://hackage.haskell.org/package/containers-0.6.6/docs/Data-Set.html
-  type Rep (FunctionObj (a -> b) a) = Set.Set a
-  tabulate g = Cons (f 0) (tabulate (f . (+1)))
-  index (FunctionObj g a b) x = g x
+instance Representable (FunctionObj b) where
+  type Rep (FunctionObj b) = (FunctionObj b *, *)
+  --                         ^^^^^^^^^^^^^^^^^^^^: input to eval
+  g :: ((FunctionObj B A, a) -> b) -> FunctionObj b a
+  tabulate g = FunctionObj b (g b) where g (FunctionObj b a, a) = b
+  index (FunctionObj b a) (c, d) = a
 
 ----class (Functor f, Representable u) =>
 ----      Adjunction f u | f -> u, u -> f where
