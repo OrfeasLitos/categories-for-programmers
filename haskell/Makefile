@@ -7,3 +7,8 @@ pair: pair.hs
 	ghc -dynamic pair.hs
 	./pair
 	rm pair{,.hi,.o}
+
+adjunction: adjunction.hs
+	ghc -dynamic adjunction.hs
+	./adjunction
+	rm adjunction{,.hi,.o}
