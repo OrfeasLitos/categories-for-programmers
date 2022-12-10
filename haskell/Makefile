@@ -12,3 +12,8 @@ adjunction: adjunction.hs
 	ghc -dynamic adjunction.hs
 	./adjunction
 	rm adjunction{,.hi,.o}
+
+question: question.hs
+	ghc -dynamic question.hs
+	./question
+	rm question{,.hi,.o}
