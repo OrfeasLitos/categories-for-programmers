@@ -17,18 +17,16 @@ class Representable f where
    tabulate :: (Rep f -> x) -> f x
    index    :: f x -> Rep f -> x
 
-data FunctionObj b a = FunctionObj b a
+data FunctionObj a b = FunctionObj a b
 -- there exists eval :: (FunctionObj b a, a) -> b
 -- for any other z with g :: (z, a) -> b
 -- exists unique h :: z -> FunctionObj b a
 -- such that g = eval . (h, id)
 
-instance Representable (FunctionObj b) where
-  type Rep (FunctionObj b) = (FunctionObj b *, *)
-  --                         ^^^^^^^^^^^^^^^^^^^^: input to eval
-  g :: ((FunctionObj B A, a) -> b) -> FunctionObj b a
-  tabulate g = FunctionObj b (g b) where g (FunctionObj b a, a) = b
-  index (FunctionObj b a) (c, d) = a
+instance Representable (FunctionObj a) where
+  type Rep (FunctionObj a) = a
+  tabulate g = FunctionObj a (g a)
+  index (FunctionObj a b) = g where g a = b
 
 ----class (Functor f, Representable u) =>
 ----      Adjunction f u | f -> u, u -> f where
