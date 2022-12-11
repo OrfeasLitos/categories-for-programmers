@@ -5,10 +5,10 @@
 -- https://bartoszmilewski.com/2016/04/18/adjunctions/
 
 -- Product with fixed a
-data L a z = L a z
+data Pair a z = P a z
 
-instance Functor (L a) where
-  fmap f (L a z) = L a (f z)
+instance Functor (Pair a) where
+  fmap f (P a z) = P a (f z)
 
 main = putStrLn "Hello World!"
 
