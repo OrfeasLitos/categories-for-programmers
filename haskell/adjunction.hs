@@ -12,9 +12,9 @@ instance Functor (Pair a) where
 main = putStrLn "Hello World!"
 
 class Representable f where
-   type Rep f :: *
-   tabulate :: (Rep f -> x) -> f x
-   index    :: f x -> Rep f -> x
+  type Rep f :: *
+  tabulate :: (Rep f -> x) -> f x
+  index    :: f x -> Rep f -> x
 
 data FunctionObj a b = FnObj (a -> b)
 -- there exists eval :: (FunctionObj a b, a) -> b
