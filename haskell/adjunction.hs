@@ -3,10 +3,10 @@
 -- Adjunction between a product and a function object
 -- https://bartoszmilewski.com/2016/04/18/adjunctions/
 
+main = putStrLn "\nSuccess!\n"
 
 data Pair a b = P a b
 
-main = putStrLn "Hello World!"
 instance Functor (Pair a) where
   fmap f (P a b) = P a (f b)
 
