@@ -10,7 +10,7 @@ data Pair a b = P a b
 instance Functor (Pair a) where
   fmap f (P a b) = P a (f b)
 
-class Representable f where
+class (Functor f) => Representable f where
   type Rep f :: *
   tabulate :: (Rep f -> x) -> f x
   index    :: f x -> Rep f -> x
