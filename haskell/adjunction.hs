@@ -22,6 +22,9 @@ data FunctionObj a b = FnObj (a -> b)
 -- exists unique h :: z -> FunctionObj a b
 -- such that g = eval . (h, id)
 
+instance Functor (FunctionObj a) where
+  fmap f (FnObj g) = FnObj (f.g)
+
 instance Representable (FunctionObj a) where
   type Rep (FunctionObj a) = a
   tabulate = FnObj
