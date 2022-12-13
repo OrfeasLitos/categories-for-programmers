@@ -1,4 +1,6 @@
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FunctionalDependencies #-}
 
 -- Adjunction between a product and a function object
 -- https://bartoszmilewski.com/2016/04/18/adjunctions/
@@ -29,17 +31,20 @@ instance Representable (FunctionObj a) where
   tabulate = FnObj
   index (FnObj g) = g
 
-----class (Functor f, Representable u) =>
-----      Adjunction f u | f -> u, u -> f where
-----  unit         :: a -> u (f a)
-----  counit       :: f (u a) -> a
-----  leftAdjunct  :: (f a -> b) -> (a -> u b)
-----  rightAdjunct :: (a -> u b) -> (f a -> b)
-----
-----  unit           = leftAdjunct id
-----  counit         = rightAdjunct id
-----  leftAdjunct f  = fmap f . unit
-----  rightAdjunct f = counit . fmap f
-----
-----
-----instance Adjunction Prod FunctionObj where
+class (Functor f, Representable u) =>
+      Adjunction f u | f -> u, u -> f where
+  unit         :: a -> u (f a)
+  counit       :: f (u a) -> a
+  leftAdjunct  :: (f a -> b) -> (a -> u b)
+  rightAdjunct :: (a -> u b) -> (f a -> b)
+
+  unit           = leftAdjunct id
+  counit         = rightAdjunct id
+  leftAdjunct f  = fmap f . unit
+  rightAdjunct f = counit . fmap f
+
+instance Adjunction (Pair a) (FunctionObj a) where
+  unit b = tabulate (\a -> P a b)
+  counit (P a (FnObj f)) = index (FnObj f) a
+  rightAdjunct f (P a b) = index (f b) a
+  leftAdjunct f b = FnObj (f . \a -> P a b)
