@@ -1,19 +1,19 @@
 stream: stream.hs
 	ghc -dynamic stream.hs
 	./stream
-	rm stream{,.hi,.o}
+	rm stream stream.hi stream.o
 
 pair: pair.hs
 	ghc -dynamic pair.hs
 	./pair
-	rm pair{,.hi,.o}
+	rm pair pair.hi pair.o
 
 adjunction: adjunction.hs
 	ghc -dynamic adjunction.hs
 	./adjunction
-	rm adjunction{,.hi,.o}
+	rm adjunction adjunction.hi adjunction.o
 
 question: question.hs
 	ghc -dynamic question.hs
 	./question
-	rm question{,.hi,.o}
+	rm question question.hi question.o
