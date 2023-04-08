@@ -17,3 +17,8 @@ question: question.hs
 	ghc -dynamic question.hs
 	./question
 	rm question question.hi question.o
+
+game-of-life: game-of-life.hs
+	ghc -dynamic game-of-life.hs
+	./game-of-life
+	rm game-of-life game-of-life.hi game-of-life.o
